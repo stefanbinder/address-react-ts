@@ -1,19 +1,27 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
+import {Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 
+interface INavigationItemProps {
+    text: string;
+    icon: string;
+    to: string;
+}
 
-export const DashboardNavigation = () => {
+const NavigationItem = (props: INavigationItemProps) => {
     return (
-        <ul>
-            <li><Link to={'/dashboard'}>Dashboard</Link></li>
-            <li>
-                <Link to={'/dashboard/countries'}>Countries</Link>
-                <ul>
-                    <li><Link to={'/dashboard/countries/new'}>New</Link></li>
-                </ul>
-            </li>
-
-        </ul>
+        <ListItem button={true} key={props.text} href={ props.to }>
+            <ListItemIcon><Icon>{props.icon}</Icon></ListItemIcon>
+            <ListItemText primary={props.text}/>
+        </ListItem>
     );
 };
 
+export const DashboardNavigation = () => {
+    return (
+        <List>
+            <NavigationItem text={'Dashboard'} to={'/dashboard'} icon={'home'}/>
+            <NavigationItem text={'Countries'} to={'/dashboard/countries'} icon={'world'}/>
+            <NavigationItem text={'Typography'} to={'/typo'} icon={'text'}/>
+        </List>
+    );
+};

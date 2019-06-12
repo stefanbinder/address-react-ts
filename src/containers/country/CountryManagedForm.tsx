@@ -21,7 +21,7 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
 
     const {match} = useReactRouter<ICountryRouter>();
 
-    const {data, included, ...countryApi$} = useCountryApi();
+    const {items, included, ...countryApi$} = useCountryApi();
 
     const [showSnackbar, setShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -72,7 +72,7 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
         <React.Fragment>
             <Snackbar open={showSnackbar} message={snackbarMessage} autoHideDuration={1000}/>
             {countryApi$.loading ? 'Loading...' : (
-                <Formik initialValues={data}
+                <Formik initialValues={items}
                         validationSchema={ CountryValidation }
                         onSubmit={handleOnSubmit}
                         render={renderForm}
@@ -83,5 +83,3 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
 };
 
 export default CountryManagedForm;
-
-

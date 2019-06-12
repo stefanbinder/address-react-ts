@@ -26,16 +26,17 @@ interface IBuildApiConfig {
 }
 
 export interface IAPI {
-    data: any;
+    item: IJsonApiIDObject | undefined;
+    items: IJsonApiIDObject[] | undefined;
     loading: boolean;
-    setInitData: (initData: IJsonApiIDObject) => void;
+    setInitData: (initData: IJsonApiIDObject | IJsonApiIDObject[]) => void;
     meta: IJsonApiIndexMeta | undefined;
     links: IJsonApiLinks | undefined;
-    index: (axiosConfig?: AxiosRequestConfig) => Promise<any[]>;
-    show: (id: number | string, axiosConfig?: AxiosRequestConfig) => Promise<any>;
-    create: (createData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig) => Promise<any>;
-    update: (id: number | string, updateData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig) => Promise<any>;
-    destroy: (id: number | string, axiosConfig?: AxiosRequestConfig) => Promise<any>;
+    index: (axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject[]>;
+    show: (id: number | string, axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject>;
+    create: (createData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject>;
+    update: (id: number | string, updateData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject>;
+    destroy: (id: number | string, axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject>;
     error: any;
     included: any;
     next: () => void;
@@ -66,84 +67,87 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
     const [config, setConfig] = useState(defaultConfig);
 
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState();
+    const [items, setItems] = useState<IJsonApiIDObject[]>();
+    const [item, setItem] = useState<IJsonApiIDObject>();
     const [meta, setMeta] = useState<IJsonApiIndexMeta>();
     const [links, setLinks] = useState<IJsonApiLinks>();
     const [included, setIncluded] = useState();
     const [error, setError] = useState();
 
-    const requestIndex = (url: string, method: Method, axiosConfig?: AxiosRequestConfig): Promise<T[]> => {
+    const requestIndex = async (url: string, method: Method, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject[]> => {
 
-        return new Promise(async (resolve, reject) => {
-            setLoading(true);
+        setLoading(true);
 
-            try {
-                const response = await httpApi(Object.assign({
-                    url,
-                    method
-                }, axiosConfig));
+        try {
+            const response = await httpApi(Object.assign({
+                url,
+                method
+            }, axiosConfig));
 
-                setData(response.data.data);
-                setMeta(response.data.meta);
-                setLinks(response.data.links);
-                setIncluded(response.data.included);
+            setItems(response.data.data);
+            setMeta(response.data.meta);
+            setLinks(response.data.links);
+            setIncluded(response.data.included);
 
-                resolve(response.data.data);
+            setLoading(false);
 
-                setLoading(false);
+            return response.data.data;
 
-            } catch (error) {
-                setError(error);
-                reject(error);
-                setLoading(false);
-            }
-        });
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+
+            throw error;
+        }
     };
 
-    const request = (url: string, method: Method, axiosConfig?: AxiosRequestConfig): Promise<T> => {
+    const request = async (url: string, method: Method, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject> => {
 
-        return new Promise(async (resolve, reject) => {
-            setLoading(true);
+        setLoading(true);
 
-            try {
-                const response = await httpApi(Object.assign({
-                    url,
-                    method
-                }, axiosConfig));
+        try {
+            const response = await httpApi(Object.assign({
+                url,
+                method
+            }, axiosConfig));
 
-                setData(response.data.data);
-                setMeta(response.data.meta);
-                setLinks(response.data.links);
-                setIncluded(response.data.included);
+            setItem(response.data.data);
+            setMeta(response.data.meta);
+            setLinks(response.data.links);
+            setIncluded(response.data.included);
 
-                resolve(response.data.data);
+            setLoading(false);
 
-                setLoading(false);
+            return response.data.data;
 
-            } catch (error) {
-                setError(error);
-                reject(error);
-                setLoading(false);
-            }
-        });
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+
+            throw error;
+        }
     };
 
-    const setInitData = (initData: IJsonApiIDObject) => {
-        setData(initData);
+    const setInitData = (initData: IJsonApiIDObject | IJsonApiIDObject[]) => {
+        if( Array.isArray(initData) ) {
+            setItems(initData);
+        } else {
+            setItem(initData);
+        }
         setLoading(false);
     };
 
-    const index = (axiosConfig?: AxiosRequestConfig): Promise<T[]> => {
+    const index = (axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject[]> => {
         log.info('Index Resource: ' + config.endpoint);
         return requestIndex(buildUrl(config), 'get', axiosConfig);
     };
 
-    const show = (id: number | string, axiosConfig?: AxiosRequestConfig): Promise<T> => {
+    const show = (id: number | string, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject> => {
         log.info('Show Resource ' + config.endpoint + ' ID: ' + id);
         return request(buildUrl(config, id), 'get', axiosConfig);
     };
 
-    const create = (createData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig): Promise<T> => {
+    const create = (createData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject> => {
         log.info('Create Resource ' + config.endpoint);
 
         const requestData = {
@@ -160,7 +164,7 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
 
     };
 
-    const update = (id: number | string, updateData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig): Promise<T> => {
+    const update = (id: number | string, updateData: IJsonApiIDObject, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject> => {
         log.info('Update Resource ' + config.endpoint + ' ID: ' + id);
 
         const requestData = {
@@ -177,7 +181,7 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
 
     };
 
-    const destroy = (id: number | string, axiosConfig?: AxiosRequestConfig): Promise<T> => {
+    const destroy = (id: number | string, axiosConfig?: AxiosRequestConfig): Promise<IJsonApiIDObject> => {
         return request(buildUrl(config, id), 'delete', axiosConfig);
     };
 
@@ -195,7 +199,8 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
     };
 
     return {
-        data,
+        items,
+        item,
         setInitData,
         meta,
         links,

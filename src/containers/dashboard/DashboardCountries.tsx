@@ -42,9 +42,9 @@ const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
 
     const renderTableRow = (item: ICountry) => (
         <div>
-            { item.attributes.name }:
-            { item.attributes.code2 } -
-            { item.attributes.code3 }
+            {item.attributes.name}:
+            {item.attributes.code2} -
+            {item.attributes.code3}
         </div>
     );
 
@@ -55,15 +55,16 @@ const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
     return (
         <DashboardLayout title={'Countries'}>
             <FilterSortTable
+                tableTitle={'Countries'}
                 renderFilter={renderFilter}
                 searchable={true}
                 renderTableHeader={renderTableHeader}
                 renderTableRow={renderTableRow}
                 renderTableRowActions={renderTableRowActions}
                 tableColumns={[
-                    {title: 'Name', field: 'attributes.name' },
-                    {title: 'Code 2', field: 'attributes.code2' },
-                    {title: 'Code 3', field: 'attributes.code3' },
+                    {title: 'Name', field: 'attributes.name'},
+                    {title: 'Code 2', field: 'attributes.code2'},
+                    {title: 'Code 3', field: 'attributes.code3'},
                 ]}
                 api={countryApi$}
             />
