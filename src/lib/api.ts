@@ -14,6 +14,9 @@ export const http = axios.create({
 
 export const httpApi = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
 });
 
 /**
