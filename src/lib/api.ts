@@ -7,15 +7,12 @@ const log = factory.getLogger('api');
 
 export const http = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-        'Access-Control-Allow-Origin': '*'
-    }
 });
 
 export const httpApi = axios.create({
     baseURL: process.env.REACT_APP_BASE_API_URL,
     headers: {
-        'Access-Control-Allow-Origin': '*'
+        Accept: 'application/json'
     }
 });
 
