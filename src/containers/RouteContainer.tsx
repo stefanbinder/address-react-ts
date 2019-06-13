@@ -17,7 +17,6 @@ class RouteContainer extends React.Component {
                     <Route exact={ true } path='/dashboard/countries' component={ DashboardCountries }/>
                     <Route exact={ true } path='/dashboard/countries/:country' component={ DashboardCountryForm }/>
                     <Route exact={ true } path='/typo' component={ ExampleTypoPage }/>
-
                 </Switch>
             </main>
         );

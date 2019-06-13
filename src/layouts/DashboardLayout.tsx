@@ -14,10 +14,16 @@ import {
     Typography
 } from "@material-ui/core";
 import clsx from "clsx";
+import Page, {IPageProps} from "layouts/Page";
+import Breadcrumbs, {IBreadcrumb} from "components/Breadcrumbs";
+
+
 
 export interface IDashboardProps {
     title: string;
+    breadcrumbs: IBreadcrumb[],
     children: ReactNode;
+    pageProps?: IPageProps;
 }
 
 const drawerWidth = 240;
@@ -114,55 +120,58 @@ export default function DashboardLayout(props: IDashboardProps) {
     };
 
     return (
-        <div className={classes.root}>
-            <CssBaseline/>
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="Open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                    >
-                        <Icon>menu</Icon>
-                    </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap={true} className={classes.title}>
-                        Dashboard
-                    </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <Icon>notifications</Icon>
-                        </Badge>
-                    </IconButton>
-                    <IconButton color="inherit">
-                        <Avatar alt={'SB'} />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                classes={{
-                    paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-                }}
-                open={open}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <Icon>chevron_left</Icon>
-                    </IconButton>
-                </div>
-                <Divider/>
-                <DashboardNavigation/>
-                <Divider/>
-                <DashboardNavigation/>
-            </Drawer>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer}/>
-                <Container maxWidth="lg" className={classes.container}>
-                    {props.children}
-                </Container>
-            </main>
-        </div>
+        <Page { ...props.pageProps }>
+            <div className={classes.root} >
+                <CssBaseline/>
+                <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+                    <Toolbar className={classes.toolbar}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="Open drawer"
+                            onClick={handleDrawerOpen}
+                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+                        >
+                            <Icon>menu</Icon>
+                        </IconButton>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap={true} className={classes.title}>
+                            { props.title }
+                        </Typography>
+                        <IconButton color="inherit">
+                            <Badge badgeContent={4} color="secondary">
+                                <Icon>notifications</Icon>
+                            </Badge>
+                        </IconButton>
+                        <IconButton color="inherit">
+                            <Avatar alt={'SB'} />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    classes={{
+                        paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                    }}
+                    open={open}
+                >
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={handleDrawerClose}>
+                            <Icon>chevron_left</Icon>
+                        </IconButton>
+                    </div>
+                    <Divider/>
+                    <DashboardNavigation/>
+                    <Divider/>
+                    <DashboardNavigation/>
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer}/>
+                    <Breadcrumbs breadcrumbs={ props.breadcrumbs }/>
+                    <Container maxWidth="xl" className={classes.container}>
+                        {props.children}
+                    </Container>
+                </main>
+            </div>
+        </Page>
     );
 }

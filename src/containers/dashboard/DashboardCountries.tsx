@@ -2,6 +2,7 @@ import React, {ReactNode} from 'react';
 import DashboardLayout from "../../layouts/DashboardLayout";
 import {ICountry, useCountryApi} from "models/Country";
 import {FilterSortTable} from "components/tables/filter-sort-table";
+import {IBreadcrumb} from "components/Breadcrumbs";
 
 
 export interface IDashboardCountriesProps {
@@ -52,9 +53,17 @@ const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
         <div>empty</div>
     );
 
+    const getBreadcrumb = (): IBreadcrumb[] => {
+        return [
+            {title: 'Dashboard', href: '/dashboard'},
+            {title: 'Countries', href: '/dashboard/countries'},
+        ]
+    };
+
     return (
-        <DashboardLayout title={'Countries'}>
+        <DashboardLayout title={'Countries'} breadcrumbs={getBreadcrumb()}>
             <FilterSortTable
+                resourceType={'countries'}
                 tableTitle={'Countries'}
                 renderFilter={renderFilter}
                 searchable={true}

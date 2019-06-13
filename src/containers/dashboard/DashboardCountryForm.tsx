@@ -15,7 +15,7 @@ export interface IDashboardCountryFormProps {
 const DashboardCountryForm: React.FC<IDashboardCountryFormProps> = props => {
 
     return (
-        <DashboardLayout title={'Country Form'}>
+        <DashboardLayout title={'Country Form'} breadcrumbs={[]}>
             <CountryManagedForm manage={['region']}/>
         </DashboardLayout>
     );

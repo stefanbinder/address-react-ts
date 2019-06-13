@@ -91,7 +91,7 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
 
             setLoading(false);
 
-            return response.data.data;
+            return response.data;
 
         } catch (error) {
             setError(error);
@@ -118,7 +118,7 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
 
             setLoading(false);
 
-            return response.data.data;
+            return response.data;
 
         } catch (error) {
             setError(error);
