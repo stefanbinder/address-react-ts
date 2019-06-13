@@ -1,5 +1,6 @@
 {
   "name": "address-react-ts",
+  "homepage": "http://address.spir-it.co",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
