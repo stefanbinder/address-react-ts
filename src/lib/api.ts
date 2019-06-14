@@ -52,9 +52,9 @@ export interface IAPI {
  */
 const buildUrl = (config: IBuildApiConfig, id?: number | string) => {
     let url = config.endpoint[0] === '/' ? config.endpoint : `/${config.endpoint}`;
-    url += url[url.length - 1] === '/' ? '' : '/';
-    url += id ? id : '';
-    return url;
+    // url += url[url.length - 1] === '/' ? '' : '/';
+    url += id ? '/'+id : '';
+    return process.env.REACT_APP_BASE_API_URL + url;
 };
 
 /**
@@ -88,7 +88,6 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
             setMeta(response.data.meta);
             setLinks(response.data.links);
             setIncluded(response.data.included);
-
             setLoading(false);
 
             return response.data;
