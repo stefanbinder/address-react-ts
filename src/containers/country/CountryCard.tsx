@@ -1,7 +1,11 @@
-import {Button, Card, CardContent, Icon, Typography} from "@material-ui/core";
 import * as React from "react";
 import {ICountry} from "models/Country";
 import {defaultLog} from "../../config/ConfigLog4j";
+import Card from "@material-ui/core/Card/Card";
+import CardContent from "@material-ui/core/CardContent/CardContent";
+import Typography from "@material-ui/core/Typography/Typography";
+import Button from "@material-ui/core/Button/Button";
+import Icon from "@material-ui/core/Icon/Icon";
 
 export interface ICountryCardProps {
     country: ICountry;

@@ -1,5 +1,8 @@
 import React from 'react';
-import {Breadcrumbs as MUIBreadcrumbs, Icon, Link, makeStyles} from "@material-ui/core";
+import { default as MUIBreadcrumbs} from "@material-ui/core/Breadcrumbs/Breadcrumbs";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Icon from "@material-ui/core/Icon/Icon";
+import Link from "@material-ui/core/Link/Link";
 
 export interface IBreadcrumb {
     title: string;

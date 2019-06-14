@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import DashboardLayout from "../../layouts/DashboardLayout";
-import {ICountry, useCountryApi} from "models/Country";
+// import {ICountry, useCountryApi} from "models/Country";
 import {FilterSortTable} from "components/tables/filter-sort-table";
 import {IBreadcrumb} from "components/Breadcrumbs";
 
@@ -11,7 +11,7 @@ export interface IDashboardCountriesProps {
 
 const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
 
-    const countryApi$ = useCountryApi();
+    // const countryApi$ = useCountryApi();
 
     // countryApi$.index({include: 'states', filter: {}});
     // countryApi$.show({id: 1, include: 'region'});
@@ -33,25 +33,25 @@ const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
     // countryApi$.links.next | prev ...
     // countryApi$.next() .prev() .first() .last()
 
-    const renderFilter = () => (
-        <div>empty</div>
-    );
-
-    const renderTableHeader = () => (
-        <div>empty</div>
-    );
-
-    const renderTableRow = (item: ICountry) => (
-        <div>
-            {item.attributes.name}:
-            {item.attributes.code2} -
-            {item.attributes.code3}
-        </div>
-    );
-
-    const renderTableRowActions = () => (
-        <div>empty</div>
-    );
+    // const renderFilter = () => (
+    //     <div>empty</div>
+    // );
+    //
+    // const renderTableHeader = () => (
+    //     <div>empty</div>
+    // );
+    //
+    // const renderTableRow = (item: ICountry) => (
+    //     <div>
+    //         {item.attributes.name}:
+    //         {item.attributes.code2} -
+    //         {item.attributes.code3}
+    //     </div>
+    // );
+    //
+    // const renderTableRowActions = () => (
+    //     <div>empty</div>
+    // );
 
     const getBreadcrumb = (): IBreadcrumb[] => {
         return [
@@ -64,18 +64,18 @@ const DashboardCountries: React.FC<IDashboardCountriesProps> = props => {
         <DashboardLayout title={'Countries'} breadcrumbs={getBreadcrumb()}>
             <FilterSortTable
                 resourceType={'countries'}
-                tableTitle={'Countries'}
-                renderFilter={renderFilter}
-                searchable={true}
-                renderTableHeader={renderTableHeader}
-                renderTableRow={renderTableRow}
-                renderTableRowActions={renderTableRowActions}
-                tableColumns={[
-                    {title: 'Name', field: 'attributes.name'},
-                    {title: 'Code 2', field: 'attributes.code2'},
-                    {title: 'Code 3', field: 'attributes.code3'},
-                ]}
-                api={countryApi$}
+                // tableTitle={'Countries'}
+                // renderFilter={renderFilter}
+                // searchable={true}
+                // renderTableHeader={renderTableHeader}
+                // renderTableRow={renderTableRow}
+                // renderTableRowActions={renderTableRowActions}
+                // tableColumns={[
+                //     {title: 'Name', field: 'attributes.name'},
+                //     {title: 'Code 2', field: 'attributes.code2'},
+                //     {title: 'Code 3', field: 'attributes.code3'},
+                // ]}
+                // api={countryApi$}
             />
         </DashboardLayout>
     );

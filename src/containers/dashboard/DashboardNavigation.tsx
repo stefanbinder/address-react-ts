@@ -1,5 +1,9 @@
 import * as React from "react";
-import {Icon, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import Icon from "@material-ui/core/Icon/Icon";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import List from "@material-ui/core/List/List";
 
 interface INavigationItemProps {
     text: string;

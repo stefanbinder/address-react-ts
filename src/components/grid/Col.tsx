@@ -1,5 +1,4 @@
-import {Grid} from "@material-ui/core";
-import {GridProps} from "@material-ui/core/Grid";
+import Grid, {GridProps} from "@material-ui/core/Grid";
 import * as React from "react";
 import {ReactNode} from "react";
 

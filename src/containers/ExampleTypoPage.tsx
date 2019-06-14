@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, Typography} from "@material-ui/core";
 import DashboardLayout from "layouts/DashboardLayout";
 import {Col, Row} from "components/grid";
+import Typography from "@material-ui/core/Typography/Typography";
+import Button from "@material-ui/core/Button/Button";
 
 const ExampleTypoPage: React.FC = props => {
     return (

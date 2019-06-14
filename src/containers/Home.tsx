@@ -1,6 +1,5 @@
 import * as React from "react";
 import {ReactNode} from "react";
-import {Link} from "react-router-dom";
 
 export interface IHomeProps {
 
@@ -13,7 +12,6 @@ class Home extends React.Component<IHomeProps> {
         return (
             <div>
                 <h1>Home</h1>
-                <Link to={'/dashboard'}>Dashboard</Link>
             </div>
         );
     }

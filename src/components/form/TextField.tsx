@@ -1,8 +1,7 @@
-import {TextField as MUITextField} from '@material-ui/core';
 import {ErrorMessage, Field, FieldConfig, FormikValues} from 'formik';
 import * as React from 'react';
 import {TextFieldProps} from "@material-ui/core/TextField";
-// import {isNil} from 'lodash';
+import { default as MUITextField } from "@material-ui/core/TextField/TextField";
 
 export interface ITextFieldProps {
     fieldProps: FieldConfig;

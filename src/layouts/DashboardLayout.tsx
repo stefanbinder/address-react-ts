@@ -1,23 +1,20 @@
 import * as React from 'react';
 import {ReactNode} from 'react';
 import {DashboardNavigation} from "containers/dashboard/DashboardNavigation";
-import {
-    AppBar, Avatar,
-    Badge,
-    Container,
-    CssBaseline,
-    Divider,
-    Drawer,
-    Icon,
-    IconButton, makeStyles,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
 import clsx from "clsx";
 import Page, {IPageProps} from "layouts/Page";
 import Breadcrumbs, {IBreadcrumb} from "components/Breadcrumbs";
-
-
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import Icon from "@material-ui/core/Icon/Icon";
+import Typography from "@material-ui/core/Typography/Typography";
+import Badge from "@material-ui/core/Badge/Badge";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import Drawer from "@material-ui/core/Drawer/Drawer";
+import Container from "@material-ui/core/Container/Container";
 
 export interface IDashboardProps {
     title: string;
@@ -159,9 +156,6 @@ export default function DashboardLayout(props: IDashboardProps) {
                             <Icon>chevron_left</Icon>
                         </IconButton>
                     </div>
-                    <Divider/>
-                    <DashboardNavigation/>
-                    <Divider/>
                     <DashboardNavigation/>
                 </Drawer>
                 <main className={classes.content}>

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import useReactRouter from "use-react-router";
-import {CountryValidation, ICountry, useCountryApi} from "../../models/Country";
+import {CountryValidation, ICountry, useCountryApi} from "models/Country";
 import {Form, Formik, FormikActions, FormikProps} from "formik";
 import CountryForm from "./CountryForm";
-import {Button, Snackbar} from "@material-ui/core";
-import {getIdObject} from "../../packages/jsonapi-helpers";
+import {getIdObject} from "packages/jsonapi-helpers";
+import Button from "@material-ui/core/Button/Button";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 
 export interface ICountryRouter {
     country: string;

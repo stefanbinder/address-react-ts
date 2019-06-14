@@ -1,10 +1,10 @@
 import * as React from "react";
-import {Route, Switch} from "react-router";
 import {Dashboard} from "./dashboard/Dashboard";
 import DashboardCountries from "./dashboard/DashboardCountries";
 import DashboardCountryForm from "./dashboard/DashboardCountryForm";
 import Home from "./Home";
 import ExampleTypoPage from "containers/ExampleTypoPage";
+import {Route, Switch} from "react-router";
 
 class RouteContainer extends React.Component {
 
