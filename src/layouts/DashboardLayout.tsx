@@ -15,6 +15,8 @@ import Badge from "@material-ui/core/Badge/Badge";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Drawer from "@material-ui/core/Drawer/Drawer";
 import Container from "@material-ui/core/Container/Container";
+import {Theme} from "@material-ui/core";
+import {ColorTheme} from "config/theme";
 
 export interface IDashboardProps {
     title: string;
@@ -25,7 +27,7 @@ export interface IDashboardProps {
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
     root: {
         display: 'flex',
     },
@@ -37,6 +39,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
+        backgroundColor: ColorTheme.primary.dark,
         ...theme.mixins.toolbar,
     },
     appBar: {
@@ -67,6 +70,7 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
+        backgroundColor: ColorTheme.grey.main,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -152,6 +156,7 @@ export default function DashboardLayout(props: IDashboardProps) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
+                        <Typography variant={'h5'}>Logo goes here</Typography>
                         <IconButton onClick={handleDrawerClose}>
                             <Icon>chevron_left</Icon>
                         </IconButton>

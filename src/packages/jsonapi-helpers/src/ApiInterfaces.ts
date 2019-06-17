@@ -17,6 +17,8 @@ export interface IJsonApiIndexMeta {
     current_page: number;
     from: number;
     to: number;
+    per_page: number;
+    total: number;
 }
 
 export interface IJsonApiLinks {

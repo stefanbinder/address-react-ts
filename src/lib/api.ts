@@ -30,7 +30,7 @@ export interface IAPI {
     items: IJsonApiIDObject[] | undefined;
     loading: boolean;
     setInitData: (initData: IJsonApiIDObject | IJsonApiIDObject[]) => void;
-    meta: IJsonApiIndexMeta | undefined;
+    meta: IJsonApiIndexMeta;
     links: IJsonApiLinks | undefined;
     index: (axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject[]>;
     show: (id: number | string, axiosConfig?: AxiosRequestConfig) => Promise<IJsonApiIDObject>;
@@ -69,7 +69,7 @@ export const useBuildApi = <T>(defaultConfig: IBuildApiConfig): IAPI => {
     const [loading, setLoading] = useState(true);
     const [items, setItems] = useState<IJsonApiIDObject[]>();
     const [item, setItem] = useState<IJsonApiIDObject>();
-    const [meta, setMeta] = useState<IJsonApiIndexMeta>();
+    const [meta, setMeta] = useState<IJsonApiIndexMeta>({} as IJsonApiIndexMeta);
     const [links, setLinks] = useState<IJsonApiLinks>();
     const [included, setIncluded] = useState();
     const [error, setError] = useState();

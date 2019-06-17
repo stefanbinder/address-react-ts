@@ -1,25 +1,51 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
+interface IColorDetails {
+    light: string;
+    main: string;
+    dark: string;
+    contrastText: string;
+}
+
+interface IColorTheme {
+    primary: IColorDetails,
+    secondary: IColorDetails,
+    error: IColorDetails,
+    grey: IColorDetails,
+}
+
+export const ColorTheme: IColorTheme = {
+    primary: {
+        light: '#419EB5',
+        main: '#41779E',
+        dark: '#3B61A3',
+        contrastText: '#eee',
+    },
+    secondary: {
+        light: '#B8697E',
+        main: '#AB5957',
+        dark: '#915043',
+        contrastText: '#eee',
+    },
+    error: {
+        light: '#E64F35',
+        main: '#C93E28',
+        dark: '#AB231A',
+        contrastText: '#eee',
+    },
+    grey: {
+        light: '#192327',
+        main: '#222D33',
+        dark: '#192327',
+        contrastText: '#eee',
+    }
+}
+
 export const theme = createMuiTheme({
     palette: {
-        primary: {
-            light: '#419EB5',
-            main: '#41779E',
-            dark: '#3B61A3',
-            contrastText: '#eee',
-        },
-        secondary: {
-            light: '#B8697E',
-            main: '#AB5957',
-            dark: '#915043',
-            contrastText: '#eee',
-        },
-        error: {
-            light: '#E64F35',
-            main: '#C93E28',
-            dark: '#AB231A',
-            contrastText: '#eee',
-        },
+        primary: ColorTheme.primary,
+        secondary: ColorTheme.secondary,
+        error: ColorTheme.error,
     },
     typography: {
         fontFamily: [
@@ -53,5 +79,5 @@ export const theme = createMuiTheme({
         h6: {
             fontSize: "1.2rem",
         },
-    }
+    },
 });

@@ -40,6 +40,9 @@
       ],
       "models/*": [
         "src/models/*"
+      ],
+      "config/*": [
+        "src/config/*"
       ]
     }
   },
