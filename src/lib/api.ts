@@ -21,6 +21,7 @@ export const httpApi = axios.create({
  */
 
 interface IBuildApiConfig {
+    type: string;
     endpoint: string;
     relationships: string[];
 }

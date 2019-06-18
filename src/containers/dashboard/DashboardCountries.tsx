@@ -1,8 +1,14 @@
 import React from 'react';
 import DashboardLayout from "../../layouts/DashboardLayout";
-import { useCountryApi} from "models/Country";
+import {useCountryApi} from "models/Country";
 import {FilterSortTable} from "components/tables/filter-sort-table";
 import {IBreadcrumb} from "components/Breadcrumbs";
+import styled from "styled-components";
+import Paper from "@material-ui/core/Paper/Paper";
+
+const SPaper = styled(Paper)`
+
+`;
 
 const DashboardCountries: React.FC = () => {
 
@@ -16,15 +22,23 @@ const DashboardCountries: React.FC = () => {
     };
 
     return (
-        <DashboardLayout title={'Countries'} breadcrumbs={getBreadcrumb()}>
+        <DashboardLayout title={'Countries'}
+                         subtitle={'Create and Update countries'}
+                         description={'You can create countries and its resources in that view. While creating you already can choose states and other relationships.'}
+                         breadcrumbs={getBreadcrumb()}
+        >
             <FilterSortTable
-                resourceType={'countries'}
                 columns={[
                     {title: 'Name', field: 'attributes.name'},
                     {title: 'Code 2', field: 'attributes.code2'},
                     {title: 'Code 3', field: 'attributes.code3'},
+                    {title: 'Date', field: 'attributes.created_at', type: 'date'},
+                    {title: 'datetime', field: 'attributes.created_at', type: 'datetime'},
+                    {title: 'time', field: 'attributes.created_at', type: 'time'},
+                    {title: 'Currency', field: 'id', type: 'currency' },
                 ]}
                 api={countryApi$}
+                WrapperComponent={ SPaper }
             />
         </DashboardLayout>
     );
@@ -32,7 +46,6 @@ const DashboardCountries: React.FC = () => {
 };
 
 export default DashboardCountries;
-
 
 
 // countryApi$.index({include: 'states', filter: {}});

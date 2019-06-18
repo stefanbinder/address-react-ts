@@ -36,6 +36,7 @@ export const CountryValidation = Yup.object().shape({
 // }
 
 export const useCountryApi = (config?: any) => useBuildApi<ICountry>(Object.assign({}, {
+    type: 'countries',
     endpoint: 'countries',
     relationships: ['states', 'region', 'capital'],
 }, config));

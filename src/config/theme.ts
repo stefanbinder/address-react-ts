@@ -61,16 +61,16 @@ export const theme = createMuiTheme({
             '"Segoe UI Symbol"',
         ].join(','),
         h1: {
-            fontSize: "4rem",
+            fontSize: "2.5rem",
         },
         h2: {
-            fontSize: "3.5rem",
+            fontSize: "2.2rem",
         },
         h3: {
-            fontSize: "3rem",
+            fontSize: "2rem",
         },
         h4: {
-            fontSize: "2.5rem",
+            fontSize: "1.8rem",
         },
         h5: {
             fontSize: "1.2rem",

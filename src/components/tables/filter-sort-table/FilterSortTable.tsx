@@ -9,12 +9,13 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableBody from "@material-ui/core/TableBody/TableBody";
 import {IJsonApiIDObject} from "packages/jsonapi-helpers";
 import TableRow from "@material-ui/core/TableRow/TableRow";
-import {useFilterSortTableStyles} from "components/tables/filter-sort-table/FilterSortTableStyles";
-import TableFooter from "@material-ui/core/TableFooter/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination/TablePagination";
 import {factory} from "config/ConfigLog4j";
 import {Col} from "components/grid";
 import {Loader} from "components/Loading";
+import {TableLoadingOverlay, TableWrapper} from "components/tables/filter-sort-table/FilterSortTableStyles";
+import Paper from "@material-ui/core/Paper/Paper";
+import FilterSortTableRow from "components/tables/filter-sort-table/FilterSortTableRow";
 
 const DEFAULT_PAGE_SIZE: number = 10;
 const DEFAULT_PAGE_SIZE_OPTIONS: number[] = [10, 25, 50, 100];
@@ -22,7 +23,6 @@ const DEFAULT_PAGE_SIZE_OPTIONS: number[] = [10, 25, 50, 100];
 const tableLog = factory.getLogger('table');
 
 export interface IFilterSortTableProps {
-    resourceType: string;
     api: IAPI,
     columns: IFilterSortTableColumn[],
     renderFilter?: () => any,
@@ -30,19 +30,20 @@ export interface IFilterSortTableProps {
     renderTableHeader?: any,
     renderTableRow?: (row: object) => any,
     renderTableRowActions?: any,
-    options?: {}
+    options?: {},
+    WrapperComponent?: any,
 }
 
 export interface IFilterSortTableColumn {
     title?: string | React.ReactElement<any>;
-    onClick?: () => any;
+    onClick?: (event: React.MouseEvent<HTMLElement>, value: any) => any;
     field: string;
     filtering?: boolean;
     sorting?: boolean;
     searchable?: boolean;
     render?: (data: any) => any;
     renderHeader?: (data: any) => any;
-    type?: ('string' | 'boolean' | 'numeric' | 'date' | 'datetime' | 'time' | 'currency');
+    type?: ('string' | 'boolean' | 'date' | 'datetime' | 'time' | 'currency');
 }
 
 export interface IApiQuery {
@@ -69,7 +70,6 @@ const FilterSortTable: React.FC<IFilterSortTableProps> = props => {
     });
 
     const [columns] = useState<IFilterSortTableColumn[]>(props.columns);
-    const classes = useFilterSortTableStyles();
 
     useEffect(() => {
         loadTable();
@@ -148,59 +148,59 @@ const FilterSortTable: React.FC<IFilterSortTableProps> = props => {
         });
     };
 
+    const {WrapperComponent = Paper} = props;
+
     return (
-        <div className={classes.tableWrapper}>
-            <Table className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        {columns.map((column: IFilterSortTableColumn, idx) => (
-                            <TableCell key={idx}>{column.title}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {api.items ? api.items.map((row: IJsonApiIDObject, rowIdx) => (
-                        <TableRow key={rowIdx}>
-                            {columns.map((column: IFilterSortTableColumn, cellIdx) => (
-                                <TableCell key={`${rowIdx}-${cellIdx}`}>{get(row, column.field)}</TableCell>
+        <TableWrapper>
+            <WrapperComponent classes={{ root: 'table-wrapper-component' }}>
+                <Table className={'filter-sort-table'}>
+                    <TableHead>
+                        <TableRow>
+                            {columns.map((column: IFilterSortTableColumn, idx) => (
+                                <TableCell key={idx}>{column.title}</TableCell>
                             ))}
                         </TableRow>
-                    )) : null}
-                </TableBody>
-                <TableFooter>
-                    <TablePagination
-                        rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
-                        component="div"
-                        count={api.meta.total}
-                        rowsPerPage={apiQuery.per_page}
-                        page={apiQuery.page - 1}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                    />
-                </TableFooter>
-            </Table>
-            <TableLoading loading={api.loading}/>
-        </div>
+                    </TableHead>
+                    <TableBody>
+                        {api.items ? api.items.map((row: IJsonApiIDObject, rowIdx) => (
+                            <FilterSortTableRow key={rowIdx}
+                                                row={ row }
+                                                columns={ props.columns }
+                            />
+                        )) : null}
+                    </TableBody>
+                </Table>
+                <TablePagination
+                    rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+                    component="div"
+                    count={api.meta.total || 1}
+                    rowsPerPage={apiQuery.per_page}
+                    page={apiQuery.page - 1}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    backIconButtonProps={{
+                        'aria-label': 'Previous Page',
+                    }}
+                    nextIconButtonProps={{
+                        'aria-label': 'Next Page',
+                    }}
+                />
+                <TableLoading loading={api.loading}/>
+            </WrapperComponent>
+        </TableWrapper>
     );
 };
 
 export default FilterSortTable;
 
 const TableLoading = (props: { loading: boolean }) => {
-    const classes = useFilterSortTableStyles();
     if (props.loading) {
         return (
-            <div className={classes.loading}>
+            <TableLoadingOverlay>
                 <Col alignItems={'center'} alignContent={'center'} justify={'center'} style={{height: '100%'}}>
                     <Loader size={80} color={'#fff'}/>
                 </Col>
-            </div>
+            </TableLoadingOverlay>
         );
     } else {
         return null;

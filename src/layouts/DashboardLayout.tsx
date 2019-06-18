@@ -18,10 +18,13 @@ import Container from "@material-ui/core/Container/Container";
 import {Theme} from "@material-ui/core";
 import {ColorTheme} from "config/theme";
 import logo from "../assets/logo.png";
+import {Col, Row} from "components/grid";
 
 export interface IDashboardProps {
     title: string;
-    breadcrumbs: IBreadcrumb[],
+    subtitle?: string | null;
+    description?: string | null;
+    breadcrumbs?: IBreadcrumb[],
     children: ReactNode;
     pageProps?: IPageProps;
 }
@@ -49,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: ColorTheme.primary.main + ' !important',
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -66,12 +70,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     title: {
         flexGrow: 1,
+        color: theme.palette.primary.contrastText + ' !important',
     },
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
         width: drawerWidth,
-        backgroundColor: ColorTheme.grey.main,
+        backgroundColor: ColorTheme.grey.main + ' !important',
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -122,8 +127,8 @@ export default function DashboardLayout(props: IDashboardProps) {
     };
 
     return (
-        <Page { ...props.pageProps }>
-            <div className={classes.root} >
+        <Page {...props.pageProps}>
+            <div className={classes.root}>
                 <CssBaseline/>
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
@@ -137,7 +142,7 @@ export default function DashboardLayout(props: IDashboardProps) {
                             <Icon>menu</Icon>
                         </IconButton>
                         <Typography component="h1" variant="h6" color="inherit" noWrap={true} className={classes.title}>
-                            { props.title }
+                            {props.title}
                         </Typography>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
@@ -145,7 +150,7 @@ export default function DashboardLayout(props: IDashboardProps) {
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">
-                            <Avatar alt={'SB'} />
+                            <Avatar alt={'SB'}/>
                         </IconButton>
                     </Toolbar>
                 </AppBar>
@@ -157,7 +162,7 @@ export default function DashboardLayout(props: IDashboardProps) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <img src={ logo } alt={'Logo'} style={{ maxWidth: '100%', maxHeight: 60 }}/>
+                        <img src={logo} alt={'Logo'} style={{maxWidth: '100%', maxHeight: 60}}/>
                         <IconButton onClick={handleDrawerClose}>
                             <Icon>chevron_left</Icon>
                         </IconButton>
@@ -166,8 +171,20 @@ export default function DashboardLayout(props: IDashboardProps) {
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer}/>
-                    <Breadcrumbs breadcrumbs={ props.breadcrumbs }/>
                     <Container maxWidth="xl" className={classes.container}>
+                        {props.subtitle || props.description || props.breadcrumbs ? (
+                            <Row style={{marginBottom: 28}}>
+                                <Col xs={8}>
+                                    {props.subtitle ? <Typography variant={'h1'}>{props.subtitle}</Typography> : null}
+                                    {props.description ?
+                                        <Typography variant={'body1'}>{props.description}</Typography> : null}
+                                </Col>
+                                <Col xs={4} justify={'flex-end'} alignContent={'flex-start'}>
+                                    {props.breadcrumbs ? <Breadcrumbs breadcrumbs={props.breadcrumbs}/> : null}
+                                </Col>
+                            </Row>
+                        ) : null}
+
                         {props.children}
                     </Container>
                 </main>

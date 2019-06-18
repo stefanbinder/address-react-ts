@@ -94,8 +94,6 @@ const NavigationItem = (props: INavigationItemProps) => {
     const [active, setActive] = useState<match | null>(matchActive());
     const [showSub, setShowSub] = useState<boolean>(!!active && !!props.children );
 
-    console.log(location);
-
     useEffect(() => {
         const tmpActive = matchActive();
         setActive(tmpActive);
