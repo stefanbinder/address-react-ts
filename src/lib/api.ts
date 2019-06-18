@@ -1,6 +1,6 @@
 import axios, {AxiosRequestConfig, Method} from 'axios';
 import {useState} from "react";
-import {factory} from "../config/ConfigLog4j";
+import {factory} from "config/ConfigLog4j";
 import {IJsonApiIDObject, IJsonApiIndexMeta, IJsonApiLinks} from "../packages/jsonapi-helpers/src/ApiInterfaces";
 
 const log = factory.getLogger('api');

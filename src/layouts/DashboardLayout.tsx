@@ -17,6 +17,7 @@ import Drawer from "@material-ui/core/Drawer/Drawer";
 import Container from "@material-ui/core/Container/Container";
 import {Theme} from "@material-ui/core";
 import {ColorTheme} from "config/theme";
+import logo from "../assets/logo.png";
 
 export interface IDashboardProps {
     title: string;
@@ -156,7 +157,7 @@ export default function DashboardLayout(props: IDashboardProps) {
                     open={open}
                 >
                     <div className={classes.toolbarIcon}>
-                        <Typography variant={'h5'}>Logo goes here</Typography>
+                        <img src={ logo } alt={'Logo'} style={{ maxWidth: '100%', maxHeight: 60 }}/>
                         <IconButton onClick={handleDrawerClose}>
                             <Icon>chevron_left</Icon>
                         </IconButton>

@@ -18,7 +18,7 @@ export const ColorTheme: IColorTheme = {
     primary: {
         light: '#419EB5',
         main: '#41779E',
-        dark: '#3B61A3',
+        dark: '#2b638c',
         contrastText: '#eee',
     },
     secondary: {
@@ -34,10 +34,10 @@ export const ColorTheme: IColorTheme = {
         contrastText: '#eee',
     },
     grey: {
-        light: '#192327',
+        light: '#2b363a',
         main: '#222D33',
         dark: '#192327',
-        contrastText: '#eee',
+        contrastText: '#ddd',
     }
 }
 

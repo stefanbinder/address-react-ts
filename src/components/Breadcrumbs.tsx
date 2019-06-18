@@ -26,7 +26,7 @@ const Breadcrumbs: React.FC<IBreadcrumbsProps> = props => {
     return (
         <MUIBreadcrumbs separator={<Icon fontSize="small">keyboard_arrow_right</Icon>} aria-label="Breadcrumb" className={ classes.root }>
             { props.breadcrumbs.map( breadcrumb => (
-                <Link key={ breadcrumb.title } color="inherit" href={ breadcrumb.href }>
+                <Link key={ breadcrumb.title } color="inherit" href={ breadcrumb.href } style={{ fontSize: '0.9rem'}}>
                     { breadcrumb.title }
                 </Link>
             )) }
