@@ -85,7 +85,6 @@ const Style = styled.div`
 }
 `;
 
-
 const NavigationItem = (props: INavigationItemProps) => {
 
     const matchActive = (): match | null => matchPath(location.pathname, props.to || '');
@@ -102,13 +101,15 @@ const NavigationItem = (props: INavigationItemProps) => {
 
     const handleExpand = () => setShowSub(!showSub);
 
-    const CompLink = (linkProps: any) => (
-        <Link {...linkProps}
+    const CompLink = React.forwardRef((linkProps: any, ref:any) => (
+        <Link {...linkProps} ref={ ref }
               to={props.to}
         />
-    );
+    ));
 
-    const CompExpand = (linkProps: any) => <div {...linkProps} onClick={handleExpand}/>;
+    const CompExpand = React.forwardRef((linkProps: any, ref:any) => (
+        <div {...linkProps} ref={ ref } onClick={handleExpand}/>
+    ));
 
     return (
         <Style>
@@ -145,14 +146,9 @@ export const DashboardNavigation = () => {
         <List component={'div'}>
             <NavigationItem text={'Dashboard'} to={'/dashboard'} icon={'home'}/>
             <NavigationItem text={'Countries'} to={'/dashboard/countries'} icon={'flag'}/>
-            <NavigationItem text={'Typography'} to={'/typo'} icon={'text_format'}/>
-            <NavigationItem text={'Skype'} icon={'camera_enhance'} to={'/skype'}>
-                <NavigationItem text={'Conv 1'} icon={'home'} to={'/skype/conv1'}/>
-                <NavigationItem text={'Conv 2'} icon={'flag'} to={'/skype/conv2'}/>
-            </NavigationItem>
-            <NavigationItem text={'LeHub'} icon={'camera_enhance'} to={'/lehub'}>
-                <NavigationItem text={'Sub 1'} icon={'home'} to={'/lehub/sub1'}/>
-                <NavigationItem text={'Sub 2'} icon={'flag'} to={'/lehub/sub2'}/>
+            <NavigationItem text={'Typography'} to={'/dashboard/typo'} icon={'text_format'}/>
+            <NavigationItem text={'Packages'} icon={'camera_enhance'} to={'/package/react-stackable-modal'}>
+                <NavigationItem text={'React Stackable Modal'} icon={'modal'} to={'/package/react-stackable-modal'}/>
             </NavigationItem>
         </List>
     );

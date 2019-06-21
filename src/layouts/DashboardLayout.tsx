@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {ReactNode} from 'react';
-import {DashboardNavigation} from "containers/dashboard/DashboardNavigation";
 import clsx from "clsx";
 import Page, {IPageProps} from "layouts/Page";
 import Breadcrumbs, {IBreadcrumb} from "components/Breadcrumbs";
@@ -19,6 +18,9 @@ import {Theme} from "@material-ui/core";
 import {ColorTheme} from "config/theme";
 import logo from "../assets/logo.png";
 import {Col, Row} from "components/grid";
+import useTheme from "@material-ui/core/styles/useTheme";
+import useMediaQuery from "@material-ui/core/useMediaQuery/useMediaQuery";
+import {DashboardNavigation} from "containers/dashboard/DashboardNavigation";
 
 export interface IDashboardProps {
     title: string;
@@ -118,6 +120,9 @@ export default function DashboardLayout(props: IDashboardProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
 
+    const theme = useTheme();
+    const matchSm = useMediaQuery(theme.breakpoints.up('sm'));
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -174,12 +179,16 @@ export default function DashboardLayout(props: IDashboardProps) {
                     <Container maxWidth="xl" className={classes.container}>
                         {props.subtitle || props.description || props.breadcrumbs ? (
                             <Row style={{marginBottom: 28}}>
-                                <Col xs={8}>
+                                <Col md={8} sm={12} style={{order: matchSm ? 1 : 2}}>
                                     {props.subtitle ? <Typography variant={'h1'}>{props.subtitle}</Typography> : null}
                                     {props.description ?
                                         <Typography variant={'body1'}>{props.description}</Typography> : null}
                                 </Col>
-                                <Col xs={4} justify={'flex-end'} alignContent={'flex-start'}>
+                                <Col md={4} sm={12}
+                                     style={{order: matchSm ? 2 : 1}}
+                                     justify={matchSm ? 'flex-end' : undefined}
+                                     alignContent={'flex-start'}
+                                >
                                     {props.breadcrumbs ? <Breadcrumbs breadcrumbs={props.breadcrumbs}/> : null}
                                 </Col>
                             </Row>

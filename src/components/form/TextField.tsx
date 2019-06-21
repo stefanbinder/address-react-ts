@@ -16,10 +16,8 @@ const TextField = (props: ITextFieldProps) => {
                 {({field}: FormikValues) => (
                     <React.Fragment>
                         <MUITextField {...field}
-                                      // value={isNil(field.value) ? '' : field.value}
                                       type='text'
-                                      variant={'outlined'}
-                                      margin="dense"
+                                      margin="normal"
                                       fullWidth={true}
                                       {...textFieldProps}
                         />

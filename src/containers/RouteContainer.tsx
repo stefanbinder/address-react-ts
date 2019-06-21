@@ -5,6 +5,7 @@ import DashboardCountryForm from "./dashboard/DashboardCountryForm";
 import Home from "./Home";
 import ExampleTypoPage from "containers/ExampleTypoPage";
 import {Route, Switch} from "react-router";
+import ReactStackableModalDemo from "containers/package/ReactStackableModalDemo";
 
 class RouteContainer extends React.Component {
 
@@ -16,7 +17,9 @@ class RouteContainer extends React.Component {
                     <Route exact={ true } path='/dashboard' component={Dashboard}/>
                     <Route exact={ true } path='/dashboard/countries' component={ DashboardCountries }/>
                     <Route exact={ true } path='/dashboard/countries/:country' component={ DashboardCountryForm }/>
-                    <Route exact={ true } path='/typo' component={ ExampleTypoPage }/>
+                    <Route exact={ true } path='/dashboard/typo' component={ ExampleTypoPage }/>
+
+                    <Route exact={ true } path='/package/react-stackable-modal' component={ ReactStackableModalDemo }/>
 
                 </Switch>
             </main>

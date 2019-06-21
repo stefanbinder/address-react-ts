@@ -21,6 +21,14 @@ const DashboardCountries: React.FC = () => {
         ]
     };
 
+    const handleBulkAction = (event: React.MouseEvent<HTMLElement>, rows: any) => {
+        alert('Redirect to edit page');
+    };
+
+    const handleActionEdit = (event: React.MouseEvent<HTMLElement>, row: any) => {
+        alert('Redirect to edit page');
+    };
+
     return (
         <DashboardLayout title={'Countries'}
                          subtitle={'Create and Update countries'}
@@ -28,17 +36,34 @@ const DashboardCountries: React.FC = () => {
                          breadcrumbs={getBreadcrumb()}
         >
             <FilterSortTable
+                searchable={true}
+                api={countryApi$}
+                WrapperComponent={ SPaper }
                 columns={[
-                    {title: 'Name', field: 'attributes.name'},
-                    {title: 'Code 2', field: 'attributes.code2'},
-                    {title: 'Code 3', field: 'attributes.code3'},
+                    {title: 'Name', field: 'attributes.name', sorting: true },
+                    {title: 'Code 2', field: 'attributes.code2', sorting: true },
+                    {title: 'Code 3', field: 'attributes.code3', sorting: true },
                     {title: 'Date', field: 'attributes.created_at', type: 'date'},
                     {title: 'datetime', field: 'attributes.created_at', type: 'datetime'},
                     {title: 'time', field: 'attributes.created_at', type: 'time'},
                     {title: 'Currency', field: 'id', type: 'currency' },
                 ]}
-                api={countryApi$}
-                WrapperComponent={ SPaper }
+                filters={[
+                    {
+                        label: 'Year',
+                        values: [{created_at: 2019}, {created_at: 2018}, {created_at: 2017}, {created_at: 2016}],
+                        attrDisplay: 'created_at',
+                        attrValue: 'created_at',
+                        comparator: 'contains',
+                    }
+                ]}
+                actions={[
+                    {name: 'Edit', icon: 'edit', onClick: handleActionEdit },
+                    {name: 'Delete', icon: 'delete', onClick: handleActionEdit },
+                ]}
+                bulkActions={[
+                    {name: 'Delete', icon: 'delete', onClick: handleBulkAction }
+                ]}
             />
         </DashboardLayout>
     );

@@ -1,5 +1,6 @@
 import * as React from "react";
 import {ReactNode} from "react";
+import DashboardLayout from "layouts/DashboardLayout";
 
 export interface IHomeProps {
 
@@ -10,9 +11,9 @@ export interface IHomeProps {
 class Home extends React.Component<IHomeProps> {
     public render() {
         return (
-            <div>
-                <h1>Home</h1>
-            </div>
+            <DashboardLayout title={'Home'}>
+                <div>Home</div>
+            </DashboardLayout>
         );
     }
 }

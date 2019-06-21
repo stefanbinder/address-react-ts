@@ -1,8 +1,8 @@
 import React from 'react';
-import {IFilterSortTableColumn} from "components/tables/filter-sort-table/FilterSortTable";
 import { isFunction } from "lodash";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import moment from "moment";
+import {IFilterSortTableColumn} from "components/tables/filter-sort-table/index";
 
 interface IFilterSortTableCellProps {
     column: IFilterSortTableColumn;
