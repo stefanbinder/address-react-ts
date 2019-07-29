@@ -1,13 +1,17 @@
 import React from 'react';
 import DashboardLayout from "layouts/DashboardLayout";
-// @ts-ignore
 import ReactStackableModal from "react-stackable-modal";
 
 const ReactStackableModalDemo: React.FC = props => {
+
+    const handleClick = (id: number): string => {
+        return "My string with id: " + id;
+    };
+
     return (
         <DashboardLayout title={'React Stackable Modal'}>
 
-            <pre>{JSON.stringify(ReactStackableModal, null, 2)}</pre>
+            <ReactStackableModal name={'Stefan'} age={12} person={{id: 1, onClick: handleClick }} />
 
         </DashboardLayout>
     );

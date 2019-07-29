@@ -1,19 +1,21 @@
 import FilterSortTable from './FilterSortTable';
 import {IAPI} from "lib/api";
-import React, {ReactElement} from "react";
+import React, {ReactElement, ReactNode} from "react";
 
 interface IFilterSortTable {
-    api: IAPI,
-    columns: IFilterSortTableColumn[],
-    filters?: ITableFilter[],
-    actions?: ITableAction[],
-    bulkActions?: ITableAction[],
-    searchable?: boolean,
-    renderTableHeader?: any,
-    renderTableRow?: (row: object) => any,
-    renderTableRowActions?: any,
-    options?: {},
-    WrapperComponent?: any,
+    api: IAPI;
+    columns: IFilterSortTableColumn[];
+    filters?: ITableFilter[];
+    actions?: ITableAction[];
+    bulkActions?: ITableAction[];
+    searchable?: boolean;
+    deletable?: boolean;
+    renderTableHeader?: any;
+    renderTableRow?: (row: object) => any;
+    renderTableRowActions?: any;
+    options?: {};
+    WrapperComponent?: any;
+    children?: ReactNode;
 }
 
 interface IFilterSortTableColumn {
@@ -46,17 +48,11 @@ type TApiComparator = '=' | 'contains' | 'starts_with' | 'ends_with' | 'gt' | 'g
 interface IFilterSortTableHeadline {
     showSearch?: boolean;
     filters?: ITableFilter[];
-    onFilterChange: (filters: ITableFilter[]) => void;
-    onSearchChange: (search: string) => void;
 }
 
 interface ITableFilter {
     label: string;
-    values: object[];
-    /**
-     * The actual filter value
-     */
-    value?: any;
+    values: any;
     /**
      * Attribute which will be used to show inside the select dropdown
      */
@@ -64,7 +60,11 @@ interface ITableFilter {
     /**
      * Attribute which will be used as value in the select dropdown
      */
-    attrValue: any;
+    attrValue: string;
+    /**
+     * Attribute which will be set on object/api as param
+     */
+    attrApply?: string;
     /**
      * Text of empty select-option
      */

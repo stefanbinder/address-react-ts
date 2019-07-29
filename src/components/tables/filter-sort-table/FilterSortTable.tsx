@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {get, xor} from "lodash";
 import {AxiosRequestConfig} from "axios";
 import Table from "@material-ui/core/Table/Table";
@@ -17,55 +17,44 @@ import {
 } from "components/tables/filter-sort-table/FilterSortTableStyles";
 import Paper from "@material-ui/core/Paper/Paper";
 import FilterSortTableRow from "components/tables/filter-sort-table/FilterSortTableRow";
-import {
-    IApiQuery,
-    IFilterSortTable,
-    IFilterSortTableColumn,
-    ITableFilter
-} from "components/tables/filter-sort-table/index";
+import {IFilterSortTable, IFilterSortTableColumn} from "components/tables/filter-sort-table/index";
 import FilterSortTableHeadline from "components/tables/filter-sort-table/FilterSortTableHeadline";
 import qs from "qs";
 import TableBulkActions from "components/tables/filter-sort-table/TableBulkActions";
 import TableSortLabel from "@material-ui/core/TableSortLabel/TableSortLabel";
-
-const DEFAULT_PAGE_SIZE: number = 10;
-const DEFAULT_PAGE_SIZE_OPTIONS: number[] = [10, 25, 50, 100];
+import {
+    FilterSortTableContext,
+    FilterSortTableProvider
+} from "components/tables/filter-sort-table/FilterSortTableContext";
+import {DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS} from "components/tables/filter-sort-table/config";
 
 const tableLog = factory.getLogger('table');
 
-const FilterSortTable: React.FC<IFilterSortTable> = props => {
+const FilterSortTableComponent: React.FC<IFilterSortTable> = props => {
 
     const {
         api
     } = props;
 
-    const [apiQuery, setApiQuery] = useState<IApiQuery>({
-        filter: {},
-        page: 1,
-        per_page: DEFAULT_PAGE_SIZE,
-        search: null,
-        sort: 'id'
-    });
-
+    const {tableState, tableDispatch} = useContext(FilterSortTableContext);
     const [columns] = useState<IFilterSortTableColumn[]>(props.columns);
-    const [filters, setFilters] = useState<ITableFilter[]>(props.filters ? props.filters : []);
 
     const [hasBulkAction] = useState(props.bulkActions && props.bulkActions.length > 0);
     const [bulkList, setBulkList] = useState<Array<(string | number)>>([]);
 
-    const [ orderBy, setOrderBy ] = useState<string>('id');
-    const [ orderDirection, setOrderDirection ] = useState<'asc'|'desc'>('asc');
+    const [orderBy, setOrderBy] = useState<string>('id');
+    const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
 
     useEffect(() => {
         loadTable();
-    }, [apiQuery]);
+    }, [tableState.apiQuery]);
 
     const loadTable = () => {
         tableLog.info('Load Table');
 
         const config: AxiosRequestConfig = {
             params: {
-                ...apiQuery,
+                ...tableState.apiQuery,
             },
             paramsSerializer: qs.stringify
         };
@@ -76,102 +65,52 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
             });
     };
 
-    // const handleOnRowAdd = (rowData: any): Promise<any> => {
-    //     return new Promise((resolve, reject) => {
-    //
-    //         if (isNil(rowData.type)) {
-    //             rowData.type = props.resourceType;
-    //         }
-    //
-    //         props.api.create(rowData)
-    //             .then(newItem => {
-    //                 resolve(rowData);
-    //             })
-    //             .catch(error => {
-    //                 reject(false);
-    //             });
-    //     });
-    // };
-    //
-    // const handleOnRowUpdate = (rowData: any): Promise<any> => {
-    //     return new Promise((resolve, reject) => {
-    //         props.api.update(rowData.id, rowData)
-    //             .then(newItem => {
-    //                 resolve(newItem);
-    //             })
-    //             .catch(error => {
-    //                 reject(false);
-    //             });
-    //     });
-    // };
-    //
-    // const handleOnRowDelete = (rowData: any): Promise<any> => {
-    //     return new Promise((resolve, reject) => {
-    //         props.api.destroy(rowData.id)
-    //             .then(newItem => {
-    //                 resolve(newItem);
-    //             })
-    //             .catch(error => {
-    //                 reject(false);
-    //             });
-    //     });
-    // };
+    const dispatchSetApiQuery = (param: string, value: any) => {
+        const apiQuery = {...tableState.apiQuery};
+        apiQuery[param] = value;
+        tableDispatch({
+            type: 'setApiQuery',
+            apiQuery
+        });
+    };
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => {
         tableLog.info('Paginate Page: ' + page);
-        setApiQuery({
-            ...apiQuery,
-            page: page + 1,
-        });
+        dispatchSetApiQuery('page', page + 1);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const perPage = parseInt(get(event, 'target.value', DEFAULT_PAGE_SIZE), 10);
         tableLog.info('Change Rows per Page: ' + perPage);
-        setApiQuery({
-            ...apiQuery,
-            per_page: perPage,
-        });
+        dispatchSetApiQuery('per_page', perPage);
     };
 
-    const handleOnFilterChange = (newFilters: ITableFilter[]) => {
-        setFilters(newFilters);
+    // const handleOnFilterChange = (newFilters: ITableFilter[]) => {
+    //     setFilters(newFilters);
+    //
+    //     const apiFilters: object = {};
+    //
+    //     newFilters.forEach((f: ITableFilter) => {
+    //         if (f.value) {
+    //             if (f.comparator) {
+    //                 apiFilters[f.attrValue] = {};
+    //                 apiFilters[f.attrValue][f.comparator] = f.value;
+    //             } else {
+    //                 apiFilters[f.attrValue] = f.value;
+    //             }
+    //         }
+    //     });
+    //
+    //     dispatchSetApiQuery('filter', apiFilters);
+    // };
 
-        const apiFilters: object = {};
 
-        newFilters.forEach((f: ITableFilter) => {
-            if (f.value) {
-                if (f.comparator) {
-                    apiFilters[f.attrValue] = {};
-                    apiFilters[f.attrValue][f.comparator] = f.value;
-                } else {
-                    apiFilters[f.attrValue] = f.value;
-                }
-            }
-        });
-
-        setApiQuery({
-            ...apiQuery,
-            filter: apiFilters
-        });
-
-    };
-
-    const handleOnSearchChange = (search: string) => {
-        setApiQuery({
-            ...apiQuery,
-            search
-        })
-    };
 
     const handleOnSortChange = (property: string) => (event: any) => {
         const isDesc = orderBy === property && orderDirection === 'desc';
         setOrderDirection(isDesc ? 'asc' : 'desc');
         setOrderBy(property);
-        setApiQuery({
-            ...apiQuery,
-            sort: `${isDesc ? '' : '-' }${property.replace('attributes.', '')}`,
-        });
+        dispatchSetApiQuery('sort', `${isDesc ? '' : '-' }${property.replace('attributes.', '')}`);
     };
 
     const handleBulkAll = () => {
@@ -191,14 +130,13 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
     return (
         <TableWrapper>
             <WrapperComponent classes={{root: 'table-wrapper-component'}}>
-
                 <FilterSortTableHeadline showSearch={props.searchable}
-                                         filters={filters}
-                                         onFilterChange={handleOnFilterChange}
-                                         onSearchChange={handleOnSearchChange}
+                                         filters={props.filters}
                 />
 
-                { props.bulkActions && bulkList.length > 0 ? <TableBulkActions bulkList={ bulkList } bulkActions={ props.bulkActions } /> : null }
+                {props.bulkActions && bulkList.length > 0 ?
+                    <TableBulkActions bulkList={bulkList} bulkActions={props.bulkActions}/>
+                    : null}
 
                 <div className={'table-scrollable'}>
                     <Table className={'filter-sort-table'}>
@@ -214,8 +152,9 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
                                     </TableCell>
                                 ) : null}
                                 {columns.map((column: IFilterSortTableColumn, idx) => (
-                                    <TableCell key={idx} sortDirection={ column.sorting ? orderBy === column.field ? orderDirection : false : false}>
-                                        { column.sorting ? (
+                                    <TableCell key={idx}
+                                               sortDirection={column.sorting ? orderBy === column.field ? orderDirection : false : false}>
+                                        {column.sorting ? (
                                             <TableSortLabel
                                                 active={orderBy === column.field}
                                                 direction={orderDirection}
@@ -223,7 +162,7 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
                                             >
                                                 {column.title}
                                             </TableSortLabel>
-                                        ) : column.title }
+                                        ) : column.title}
                                     </TableCell>
                                 ))}
                                 {props.actions && props.actions.length > 0 ? (
@@ -250,8 +189,8 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
                     rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
                     component="div"
                     count={api.meta.total || 1}
-                    rowsPerPage={apiQuery.per_page}
-                    page={apiQuery.page - 1}
+                    rowsPerPage={tableState.apiQuery.per_page}
+                    page={tableState.apiQuery.page - 1}
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     backIconButtonProps={{
@@ -265,6 +204,14 @@ const FilterSortTable: React.FC<IFilterSortTable> = props => {
             </WrapperComponent>
         </TableWrapper>
     );
+};
+
+const FilterSortTable: React.FC<IFilterSortTable> = props => {
+    return (
+        <FilterSortTableProvider>
+            <FilterSortTableComponent {...props} />
+        </FilterSortTableProvider>
+    )
 };
 
 export default FilterSortTable;

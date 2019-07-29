@@ -1,10 +1,11 @@
-import React from 'react';
-import {IFilterSortTableHeadline, ITableFilter} from "components/tables/filter-sort-table/index";
+import React, {useContext} from 'react';
+import {IFilterSortTableHeadline} from "components/tables/filter-sort-table/index";
 import {Col, Row} from 'components/grid';
 import {Form, Formik, FormikActions, FormikProps} from "formik";
 import TableFilters from "components/tables/filter-sort-table/TableFilters";
 import {TableHeadline} from "components/tables/filter-sort-table/FilterSortTableStyles";
 import SearchField from "components/form/SearchField";
+import {FilterSortTableContext} from "components/tables/filter-sort-table/FilterSortTableContext";
 
 interface ISearchField {
     search: string
@@ -12,13 +13,15 @@ interface ISearchField {
 
 const FilterSortTableHeadline: React.FC<IFilterSortTableHeadline> = props => {
 
-    const handleSearchOnSubmit = (values: ISearchField, actions: FormikActions<ISearchField>) => {
-        props.onSearchChange(values.search);
-        actions.setSubmitting(false);
-    };
+    const {tableDispatch} = useContext(FilterSortTableContext);
 
-    const handleOnApplyFilters = (filters: ITableFilter[]) => {
-        props.onFilterChange(filters);
+    const handleSearchOnSubmit = (values: ISearchField, actions: FormikActions<ISearchField>) => {
+        tableDispatch({
+            type: 'setSearch',
+            payload: values.search,
+        });
+
+        actions.setSubmitting(false);
     };
 
     const renderSearchForm = (formikBag: FormikProps<ISearchField>) => (
@@ -43,7 +46,7 @@ const FilterSortTableHeadline: React.FC<IFilterSortTableHeadline> = props => {
             </Col>
             <Col xs={4} md={8} alignContent={'center'} justify={'flex-end'}>
                 {props.filters && props.filters.length > 0 ? (
-                    <TableFilters filters={props.filters} onApply={handleOnApplyFilters}/>
+                    <TableFilters filters={props.filters}/>
                 ) : null}
             </Col>
         </TableHeadline>

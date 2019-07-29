@@ -146,6 +146,7 @@ export const DashboardNavigation = () => {
         <List component={'div'}>
             <NavigationItem text={'Dashboard'} to={'/dashboard'} icon={'home'}/>
             <NavigationItem text={'Countries'} to={'/dashboard/countries'} icon={'flag'}/>
+            <NavigationItem text={'States'} to={'/dashboard/states'} icon={'flag'}/>
             <NavigationItem text={'Typography'} to={'/dashboard/typo'} icon={'text_format'}/>
             <NavigationItem text={'Packages'} icon={'camera_enhance'} to={'/package/react-stackable-modal'}>
                 <NavigationItem text={'React Stackable Modal'} icon={'modal'} to={'/package/react-stackable-modal'}/>

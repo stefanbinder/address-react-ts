@@ -6,6 +6,8 @@ import CountryForm from "./CountryForm";
 import {getIdObject} from "packages/jsonapi-helpers";
 import Button from "@material-ui/core/Button/Button";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import StackableModalButton from "packages/react-stackable-modal/StackableModalButton";
+import CreateOrUpdateStateModal from "containers/dashboard/CreateOrUpdateStateModal";
 
 export interface ICountryRouter {
     country: string;
@@ -29,7 +31,7 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
 
     useEffect(() => {
         if (match.params.country === 'new') {
-            countryApi$.setInitData( getIdObject('countries') as ICountry);
+            countryApi$.setInitData(getIdObject('countries') as ICountry);
         } else {
             countryApi$.show(match.params.country, {
                 params: {
@@ -62,9 +64,28 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
 
     };
 
+    const handleEmpty = () => console.log('handleEmpty');
+
     const renderForm = (formikBag: FormikProps<ICountry>) => (
         <Form>
             <CountryForm/>
+
+            {props.manage.indexOf('states') > -1 ? (
+                <StackableModalButton modal={CreateOrUpdateStateModal}
+                                      modalProps={{
+                                          open: true
+                                      }}
+                                      onCreate={handleEmpty}
+                                      onUpdate={handleEmpty}
+                                      values={{}}
+                    // OPTIONAL
+                                      initialValues={null}
+                                      buttonComponent={Button}
+                                      buttonProps={{}}
+                                      disabled={false}
+                />
+            ) : null}
+
             <Button type={'submit'}>Update</Button>
         </Form>
     );
@@ -74,7 +95,7 @@ const CountryManagedForm: React.FC<ICountryManagedFormProps> = props => {
             <Snackbar open={showSnackbar} message={snackbarMessage} autoHideDuration={1000}/>
             {countryApi$.loading ? 'Loading...' : (
                 <Formik initialValues={items}
-                        validationSchema={ CountryValidation }
+                        validationSchema={CountryValidation}
                         onSubmit={handleOnSubmit}
                         render={renderForm}
                 />

@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+import {useBuildApi} from "lib/api";
+import {ICountry} from "models/Country";
 
 export class State {
     public code: string;
@@ -13,3 +15,9 @@ export const StateValidation = Yup.object({
 export const StateListValidation = Yup.object({
     states: Yup.array().of( StateValidation ),
 });
+
+export const useStateApi = (config?: any) => useBuildApi<ICountry>(Object.assign({}, {
+    type: 'states',
+    endpoint: 'states',
+    relationships: [],
+}, config));

@@ -21,6 +21,7 @@ const DashboardCountries: React.FC = () => {
         ]
     };
 
+    // @ts-ignore
     const handleBulkAction = (event: React.MouseEvent<HTMLElement>, rows: any) => {
         alert('Redirect to edit page');
     };
@@ -35,18 +36,36 @@ const DashboardCountries: React.FC = () => {
                          description={'You can create countries and its resources in that view. While creating you already can choose states and other relationships.'}
                          breadcrumbs={getBreadcrumb()}
         >
+
+            {/*<StackableModalButton modal={ CreateOrUpdateCountryModal }*/}
+            {/*modalProps={{*/}
+            {/*open: true*/}
+            {/*}}*/}
+            {/*onCreate={ handleFunc }*/}
+            {/*onUpdate={ handleFunc }*/}
+            {/*values={ {} }*/}
+            {/*// OPTIONAL*/}
+            {/*initialValues={ null }*/}
+            {/*// buttonComponent={ Button }*/}
+            {/*// buttonProps={{*/}
+            {/*//*/}
+            {/*// }}*/}
+            {/*disabled={ false }*/}
+            {/*>*/}
+            {/*Create Country*/}
+            {/*</StackableModalButton>*/}
             <FilterSortTable
                 searchable={true}
                 api={countryApi$}
-                WrapperComponent={ SPaper }
+                WrapperComponent={SPaper}
                 columns={[
-                    {title: 'Name', field: 'attributes.name', sorting: true },
-                    {title: 'Code 2', field: 'attributes.code2', sorting: true },
-                    {title: 'Code 3', field: 'attributes.code3', sorting: true },
+                    {title: 'Name', field: 'attributes.name', sorting: true},
+                    {title: 'Code 2', field: 'attributes.code2', sorting: true},
+                    {title: 'Code 3', field: 'attributes.code3', sorting: true},
                     {title: 'Date', field: 'attributes.created_at', type: 'date'},
                     {title: 'datetime', field: 'attributes.created_at', type: 'datetime'},
                     {title: 'time', field: 'attributes.created_at', type: 'time'},
-                    {title: 'Currency', field: 'id', type: 'currency' },
+                    {title: 'Currency', field: 'id', type: 'currency'},
                 ]}
                 filters={[
                     {
@@ -58,12 +77,12 @@ const DashboardCountries: React.FC = () => {
                     }
                 ]}
                 actions={[
-                    {name: 'Edit', icon: 'edit', onClick: handleActionEdit },
-                    {name: 'Delete', icon: 'delete', onClick: handleActionEdit },
+                    {name: 'Edit', icon: 'edit', onClick: handleActionEdit},
+                    {name: 'Delete', icon: 'delete', onClick: handleActionEdit},
                 ]}
-                bulkActions={[
-                    {name: 'Delete', icon: 'delete', onClick: handleBulkAction }
-                ]}
+                // bulkActions={[
+                //     {name: 'Delete', icon: 'delete', onClick: handleBulkAction }
+                // ]}
             />
         </DashboardLayout>
     );
