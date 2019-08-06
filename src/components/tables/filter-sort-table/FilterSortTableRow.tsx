@@ -1,19 +1,18 @@
-import React, {ChangeEvent} from 'react';
-import {get, isFunction} from "lodash";
+import React, {ChangeEvent, useContext} from 'react';
+import {get} from "lodash";
 import FilterSortTableCell from "components/tables/filter-sort-table/FilterSortTableCell";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import {IFilterSortTableColumn, ITableAction} from "components/tables/filter-sort-table/index";
 import TableActions from "components/tables/filter-sort-table/TableActions";
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import {BulkCheckbox} from "components/tables/filter-sort-table/FilterSortTableStyles";
+import {FilterSortTableContext} from "components/tables/filter-sort-table/FilterSortTableContext";
 
 interface IFilterSortTableRowProps {
     row: any;
     columns: IFilterSortTableColumn[];
     actions?: ITableAction[];
     hasBulkAction?: boolean;
-    bulkChecked?: boolean;
-    onBulkChange?: (id: string | number) => void;
 }
 
 const FilterSortTableRow: React.FC<IFilterSortTableRowProps> = props => {
@@ -23,22 +22,25 @@ const FilterSortTableRow: React.FC<IFilterSortTableRowProps> = props => {
         columns,
         actions,
         hasBulkAction,
-        bulkChecked,
-        onBulkChange
     } = props;
 
+    const {tableState, tableDispatch} = useContext(FilterSortTableContext);
+
     const handleBulkToggle = (event: ChangeEvent) => {
-        if (isFunction(onBulkChange)) {
-            onBulkChange(row.id);
-        }
+        tableDispatch({
+            type: 'toggleBulkListEntry',
+            payload: row.id,
+        });
     };
+
+    const isChecked = (): boolean => tableState.bulklist.indexOf(row.id) > -1;
 
     return (
         <TableRow>
             {hasBulkAction ? (
                 <TableCell>
                     <BulkCheckbox
-                        checked={bulkChecked}
+                        checked={isChecked()}
                         onChange={handleBulkToggle}
                         style={{padding: 3}}
                     />

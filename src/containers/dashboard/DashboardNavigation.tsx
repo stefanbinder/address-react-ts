@@ -141,7 +141,7 @@ const NavigationItem = (props: INavigationItemProps) => {
     );
 };
 
-export const DashboardNavigation = () => {
+export const DashboardNavigation = React.memo(() => {
     return (
         <List component={'div'}>
             <NavigationItem text={'Dashboard'} to={'/dashboard'} icon={'home'}/>
@@ -153,4 +153,4 @@ export const DashboardNavigation = () => {
             </NavigationItem>
         </List>
     );
-};
+});

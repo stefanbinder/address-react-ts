@@ -17,7 +17,7 @@ const FilterSortTableHeadline: React.FC<IFilterSortTableHeadline> = props => {
 
     const handleSearchOnSubmit = (values: ISearchField, actions: FormikActions<ISearchField>) => {
         tableDispatch({
-            type: 'setSearch',
+            type: 'setApiQuerySearch',
             payload: values.search,
         });
 

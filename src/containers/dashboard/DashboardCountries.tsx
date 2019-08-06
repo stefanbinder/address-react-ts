@@ -37,23 +37,6 @@ const DashboardCountries: React.FC = () => {
                          breadcrumbs={getBreadcrumb()}
         >
 
-            {/*<StackableModalButton modal={ CreateOrUpdateCountryModal }*/}
-            {/*modalProps={{*/}
-            {/*open: true*/}
-            {/*}}*/}
-            {/*onCreate={ handleFunc }*/}
-            {/*onUpdate={ handleFunc }*/}
-            {/*values={ {} }*/}
-            {/*// OPTIONAL*/}
-            {/*initialValues={ null }*/}
-            {/*// buttonComponent={ Button }*/}
-            {/*// buttonProps={{*/}
-            {/*//*/}
-            {/*// }}*/}
-            {/*disabled={ false }*/}
-            {/*>*/}
-            {/*Create Country*/}
-            {/*</StackableModalButton>*/}
             <FilterSortTable
                 searchable={true}
                 api={countryApi$}
@@ -80,9 +63,9 @@ const DashboardCountries: React.FC = () => {
                     {name: 'Edit', icon: 'edit', onClick: handleActionEdit},
                     {name: 'Delete', icon: 'delete', onClick: handleActionEdit},
                 ]}
-                // bulkActions={[
-                //     {name: 'Delete', icon: 'delete', onClick: handleBulkAction }
-                // ]}
+                bulkActions={[
+                    {name: 'Delete', icon: 'delete', onClick: handleBulkAction }
+                ]}
             />
         </DashboardLayout>
     );
